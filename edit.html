@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+    <style>
+          body {-webkit-animation: pulse 10s infinite;animation: pulse 10s infinite;}
+
+@-webkit-keyframes pulse {
+    0% {background:#c3c3c3}
+    25% {background:#fac0d4}
+    50% {background:#ff86f6}
+    75% {background:#959eff}
+    100% {background:#9bff93}
+}
+
+@keyframes pulse {
+    0% {background:#c3c3c3}
+    25% {background:#fac0d4}
+    50% {background:#ff86f6}
+    75% {background:#959eff}
+    100% {background:#9bff93}
+}
+        
+                table{
+                    
+         border-spacing: inherit;
+             font-family: monospace;
+    font-size: 15px;
+            color: #000000;
+            letter-spacing: 1px;
+        }
+        input[type=text],select,input[type=submit]
+        {
+            border: 2px solid #817b7b;
+    border-radius: 4px;
+           width: 100%;
+   -webkit-animation: pulse 10s infinite;animation: pulse 10s infinite;
+            
+            @-webkit-keyframes pulse {
+    0% {background:#f44336}
+    25% {background:#e91e63}
+    50% {background:#9c2780}
+    75% {background:#673ab7}
+    100% {background:#f44336}
+      
+                
+}
+    </style>
+<body>
+    <p1><center><b>You can Update any single information and it will be Updated</b><br><br>please enter these details properly and this will be displayed to patients</center></p1>
+<form action="edit.php" method="post"><center>
+    <table cellspacing="10" align="left" cellpadding="4">
+	            
+				<tr><td>Your BloodBank Name</td>
+					<td><input type="text" name="name"></td>
+				</tr><br>
+				<tr><td>BloodBank Address</td>
+					<td><input maxlength="52"  type="text" name="address"></td>
+				</tr>
+				<br>
+				<tr><td>Phone No</td>
+					<td><input  type="text" name="phoneno"></td>
+				</tr><br>
+				<tr><td>City</td>
+					<td><input type="text" name="city"></td>
+				</tr><br>
+				<tr><td>Email</td>
+					<td><input type="text" name="email"></td>
+				</tr>
+				<tr><br>
+					
+                    <td><b><input  style="width:60%" type="submit" name="update" value="update"/></b></td>
+				</tr>
+    </table></center>
+</form>
+</body>
+</html>

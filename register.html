@@ -1,0 +1,201 @@
+<html>
+	<head>
+		<title> Registeration form</title>
+	</head>
+    <style>
+        body {-webkit-animation: pulse 10s infinite;animation: pulse 10s infinite;}
+
+@-webkit-keyframes pulse {
+    0% {background:#f44336}
+    25% {background:#e91e63}
+    50% {background:#9c2780}
+    75% {background:#673ab7}
+    100% {background:#f44336}
+}
+
+@keyframes pulse {
+    0% {background:#f44336}
+    25% {background:#e91e63}
+    50% {background:#9c2780}
+    75% {background:#673ab7}
+    100% {background:#f44336}
+}
+
+        
+        table{
+            
+             font-family: monospace;
+    font-size: 18px;
+            color: #000000;
+            letter-spacing: 1px;
+        }
+        input[type=text],select,input[type=submit]
+        {
+            border: 2px solid #000000;
+    border-radius: 4px;
+            -webkit-animation: pulse 10s infinite;animation: pulse 10s infinite;
+            
+            @-webkit-keyframes pulse {
+    0% {background:#f44336}
+    25% {background:#e91e63}
+    50% {background:#9c2780}
+    75% {background:#673ab7}
+    100% {background:#f44336}
+                
+}
+       
+
+@keyframes pulse {
+    0% {background:#f44336}
+    25% {background:#e91e63}
+    50% {background:#9c2780}
+    75% {background:#673ab7}
+    100% {background:#f44336}
+}
+        }
+        input[type=submit]:hover{
+             border: 1px solid #b5b5b5;
+    border-width: thick;
+    color: #ffffff;
+    opacity: .9;
+        }
+    </style>
+	<script type="text/javascript">
+		function validate()
+		{
+			var name=document.myform.name.value;
+			var age=document.getElementById('age').value;
+			var address=document.myform.address.value;
+			var phno=document.myform.Phoneno.value;
+			var city=document.myform.city.value;
+			var bloodgroup=document.myform.bloodgroup.value;
+			if(!isNaN(name))
+			{
+				alert("name contains only alphabets");
+				document.myform.name.focus();
+				return false;
+			}
+			if(name==null||name=="")
+			{
+				alert("name can't be null");
+				document.myform.name.focus() ;
+				return false;
+			}
+			else if (isNaN(age)||age<18||age>100) {
+				alert("the age must greater then 18 and less than 100");
+				document.myform.age.focus() ;
+				return false;
+
+			}
+			 
+			else if(phno==""||phno==null)
+			{
+				alert("phno cant be null");
+				document.myform.Phoneno.focus() ;
+				return false;
+			}
+			else if(isNaN(phno))
+			{
+				alert("phno contains only numbers");
+				document.myform.Phoneno.focus() ;
+				return false;
+			}
+			else if(phno.length<10||phno.length>10)
+			{
+				alert("enter proper phone no");
+				document.myform.Phoneno.focus();
+				return false;
+			}
+			else if(address==null||address=="")
+			{
+				alert("address can't be null");
+				document.myform.address.focus() ;
+				return false;
+			}
+
+				if(!isNaN(city))
+			{
+				alert("city name contains only alphabets");
+				document.myform.name.focus();
+				return false;
+			}
+			if(city==null||city=="")
+			{
+				alert("city name can't be null");
+				document.myform.name.focus() ;
+				return false;
+			}
+			if(bloodgroup==null||bloodgroup=="")
+			{
+				alert("bloodgroup can't be null");
+				document.myform.bloodgroup.focus() ;
+				return false;
+			}
+
+				var email=document.myform.email.value;
+				atpos = email.indexOf("@");
+  				dotpos = email.lastIndexOf(".");
+			 if (email == "" || atpos < 1 || ( dotpos - atpos < 2 )) 
+ 				{
+    				 alert("Please enter correct email ID")
+     				document.myform.email.focus() ;
+     				return false;
+				 }
+
+		}
+	</script>
+	<body>
+        
+		<form  action="register.php"  method="post" name="myform" onsubmit="return validate()">
+			<table align="center" cellpadding="4" cellspacing="4">
+				
+				<tr>
+					<td>name</td>
+					<td><input type="text" name="name" /></td>
+				</tr>
+				<tr>
+					<td>Age</td>
+					<td><input type="text" name="age" id="age" /></td>
+				</tr>
+				<tr>
+					<td>Phone Number</td>
+					<td><input type="text" name="Phoneno" /></td>
+				</tr>
+				<tr>
+					<td>address</td>
+					<td><input maxlength="52" type="text" name="address" /></td>
+				</tr>
+				<tr>
+					<td> city</td>
+					<td><input type="text" name="city" /></td>
+				<tr>
+					<td>Blood Group</td>
+					<td>    <select style="width:170px" name="bloodgroup">  
+<option value="aplus">A-positive</option>  
+<option value="aminus">A-negative</option>  
+<option value="bplus">B-positive</option>  
+<option value="bminus">B-negative</option>  
+<option value="oplus">O-positive</option>  
+<option value="ominus">O-negative</option>  
+<option value="abplus">AB-positive</option> 
+<option value="abminus">AB-negative</option>  
+
+</select></td>
+				</tr>
+				<tr>
+					<td>Email</td>
+					<td><input type="text" name="email"/></td>
+				</tr>
+                <center>
+                <b><P1>YOUR INFORMATION WILL BE SHARED TO ALL THE CLIENTS WHENEVER THEY ARE NEED IN YOUR CITY<br>Whenever there is in need of your Blood group in your City patients will contact you directly.<br><br>fill the form ONLY if you ACCEPT these terms<br></P1></b><br><br></center>
+
+				<tr>
+					<td>
+						<input  type="submit" name="register" value=" register" /></td>
+					</tr>
+				</table>
+
+		</form>
+         <p1 style="text-decoration:none; font-weight: 900; font-size: 200%;  font-family:papyrus; position:absolute; left:200px; top:500px; ">1 pint can save 3 lives. <br>give blood, give life, Register as Donar.</p1>
+	</body>
+</html>

@@ -1,0 +1,346 @@
+
+
+	<!DOCTYPE html>
+<html>
+<head>
+<title>Blood Banks</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<style>
+/* Always set the map height explicitly to define the size of the div
+* element that contains the map. */
+#map {
+height: 90%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+height: 100%;
+margin: 0;
+padding: 0;
+background:	#F0FFFF;
+}
+#description {
+font-family: Roboto;
+font-size: 15px;
+font-weight: 300;
+}
+
+#infowindow-content .title {
+font-weight: bold;
+}
+
+#infowindow-content {
+display: none;
+}
+
+#map #infowindow-content {
+display: inline;
+}
+
+.pac-card {
+margin: 10px 10px 0 0;
+border-radius: 2px 0 0 2px;
+box-sizing: border-box;
+-moz-box-sizing: border-box;
+outline: none;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+background-color: #fff;
+font-family: Roboto;
+}
+
+#pac-container {
+padding-bottom: 12px;
+margin-right: 12px;
+}
+
+.pac-controls {
+display: inline-block;
+padding: 5px 11px;
+}
+
+.pac-controls label {
+font-family: Roboto;
+font-size: 13px;
+font-weight: 300;
+}
+
+#pac-input {
+background-color: #fff;
+font-family: Roboto;
+font-size: 15px;
+font-weight: 300;
+margin-left: 12px;
+padding: 0 11px 0 13px;
+text-overflow: ellipsis;
+width: 400px;
+}
+
+#pac-input:focus {
+border-color: #4d90fe;
+}
+
+#title {
+color: #fff;
+background-color: #4d90fe;
+font-size: 25px;
+font-weight: 500;
+padding: 6px 12px;
+}
+#target {
+width: 345px;
+}
+</style>
+<div id="infobox" align="center" ><b><font size="4" face="Open Sans">Click on destination flag to get direction and distance</font></b></div>
+
+<script>
+// This example requires the Places library. Include the libraries=places
+// parameter when you first load the API. For example:
+// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+//Dummy Value
+var directionsService;
+var directionsDisplay;
+var CurrPosition={lat: 15.1138,lng :75.2569};
+var marker, i;
+var dest;
+var locations = [
+["SDM College of Medical Sciences and Hospital",15.4423583,74.9902629, 5],
+      ["The Rotary Blood Bank,Hospital,Kelgeri Road, Dharwad, Karnataka 580008",15.4637248,74.9676393, 6],
+	  ["Civil Hospital,Maratha Colony, Dharwad, Karnataka 580008",15.4565617,74.9877121, 4],
+	  ["KIMS OPD,P. B Road, Vidyanagar, Hubballi, Karnataka 580022",15.3616054,75.1285314, 7],
+	  ["Hubli Lions Blood Bank,Vivekanand General Hospital Compound, Deshpande Nagar, Deshpande Nagar, Hubballi, Karnataka 580029",15.3545672,75.1333773, 1],
+	  ["Life Line 24x7 Intensive Care Unit and Hospital, Opp New Bus Stand Airport Road, Hubballi, Karnataka 580030",15.3514462,75.1155703, 2],	  
+	  ["Shree Mahaveer Blood Bank,4th Floor, Radio Complex, Shivaji Road, Shivaji Road, Belagavi, Karnataka 590002",15.85531,74.5090749, 3],
+	  ["IMA Blood Bank,Vidya Nagar, Kalasapur, Gadag, Karnataka 582101",15.4361568,75.6354296, 8],
+	  ["MEDALL HEALTH CARE PVT LTD,Medall Diagnostics, McGann Hospital Campus shimoga institute of medical & science behind blood bank,, Mission Compound, Shivamogga, Karnataka 577201",13.9361924,75.5611904, 9],
+	  ["Rotary Mid Town Blood Bank,1, Ft Road, Vinayak Nagar, Vinayaka Nagar, Basaveshwara Nagar, Shivamogga, Karnataka 577201",13.9461152,75.5761283, 10],
+	  ["Subbaiah Institute of Medical & Dental Sciences,NH-13, Purle, Shivamogga, Karnataka 577222",13.9329382,75.6149833, 11],
+	  ["Red Cross Society,Chikkaballapura, Karnataka 562101",13.2149701,77.5236314, 12],
+	  ["Bapuji Blood Bank,MCC B Block, MCC, Davangere, Karnataka 577004",14.4552359,75.9136166, 13],
+	  ["Smt Vasantidevi Baldota Blood Bank,Baldota Colony, Hosapete, Hosapete, Karnataka 583201",15.2597877,76.3772133, 14],
+	  ["Rajashri Shahu Blood Bank,Rotary Samaj Seva Kendra, Nagala Park, Karveer, Karveer, Kolhapur, Maharashtra 416003",16.6913127,74.2426775, 15],
+	  ["The Principal, Medical College Hospital Blood Bank, Bellary",16.6913127,74.2426775, 16],
+	  ["Rotary Bangalore TTK Blood Bank,New Thippasandra Main Road, HAL 3rd Stage, New Thippasandra, Beside Thippasandra Post Office, HAL 3rd Stage, Bhoomi Reddy Colony, New Tippasandra, Bengaluru, Karnataka 560075",12.9719134,77.6544973, 17],
+	  ["Bangalore Baptist Hospital,Bangalore Baptist Hospital, Bellary Rd, Vinayakanagar, Bengaluru, Karnataka 560024",13.0356802,77.5873813, 18]
+    ];
+      
+
+var map;
+var map2;
+var infowindow;
+var p;
+var CM;
+window.onload=
+function begin() {
+if (navigator.geolocation){
+navigator.geolocation.getCurrentPosition(function(position){
+var CurrPosition = {lat: position.coords.latitude, lng: position.coords.longitude};
+window.CurrPosition=CurrPosition;}
+,error)
+}
+else
+{console.log("Browser not Supported");
+}
+};
+
+function error(err) {
+console.warn("ERROR"+err.code+err.message);
+}
+
+
+function initMap( ) {
+map = new google.maps.Map(document.getElementById('map'), {
+center:CurrPosition ,
+zoom: 15,
+mapTypeId: 'roadmap'
+});
+directionsService = new google.maps.DirectionsService;
+directionsDisplay = new google.maps.DirectionsRenderer;
+directionsDisplay.setMap(map);
+if (navigator.geolocation){
+navigator.geolocation.getCurrentPosition(function(position){
+var CurrPosition = {lat: position.coords.latitude, lng: position.coords.longitude};
+window.CurrPosition=CurrPosition;
+map.setCenter(CurrPosition);
+var CM = new google.maps.Marker({
+map: map,
+position: CurrPosition,
+icon: pinSymbol("#427df4"),
+title: 'My Position'});
+}
+,error)
+}
+else
+{console.log("Browser not Supported");
+}
+var markers = [];
+
+var input = document.getElementById('pac-input');
+var searchBox = new google.maps.places.SearchBox(input);
+map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+// Bias the SearchBox results towards current map's viewport.
+map.addListener('bounds_changed', function() {
+searchBox.setBounds(map.getBounds());
+});
+searchBox.addListener('places_changed', function() {
+var places = searchBox.getPlaces();
+
+if (places.length == 0) {
+return;
+}
+// For each place, get the icon, name and location.
+var bounds = new google.maps.LatLngBounds();
+places.forEach(function(place) {
+if (!place.geometry) {
+console.log("Returned place contains no geometry");
+return;
+}
+var icon = {
+url: place.icon,
+size: new google.maps.Size(71, 71),
+origin: new google.maps.Point(0, 0),
+anchor: new google.maps.Point(17, 34),
+scaledSize: new google.maps.Size(25, 25)
+};
+
+// Create a marker for each place.
+markers.push(new google.maps.Marker({
+map: map,
+icon: icon,
+title: place.name,
+position: place.geometry.location
+}));
+
+if (place.geometry.viewport) {
+// Only geocodes have viewport.
+bounds.union(place.geometry.viewport);
+} else {
+bounds.extend(place.geometry.location);
+}
+});
+map.fitBounds(bounds);
+});
+for (var i = 0; i < locations.length; i++) {
+createMarker(i,locations[i][1],locations[i][2]);
+}
+}
+
+function callback(results, status) {
+if (status === google.maps.places.PlacesServiceStatus.OK) {
+for (var i = 0; i < results.length; i++) {
+createMarker(results[i]);
+}
+}
+}
+function NearBySearch(loc)
+{
+infowindow = new google.maps.InfoWindow();
+var service = new google.maps.places.PlacesService(map);
+service.nearbySearch({
+location: loc,
+radius: 50000,
+type: ['amusement_park']
+}, callback);
+}
+function pinSymbol(color) {
+return {
+path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
+fillColor: color,
+fillOpacity: 1,
+strokeColor: '#000',
+strokeWeight: 2,
+scale: 1,
+};
+}
+
+function createMarker(i,latitude,longitude) {
+
+var placeLoc = {lat:latitude,lng:longitude
+};
+var marker = new google.maps.Marker({
+map: map,
+position: placeLoc
+});
+
+google.maps.event.addListener(marker, 'click', function() {
+infowindow = new google.maps.InfoWindow();
+dest=placeLoc;
+infowindow.setContent(locations[i][0]);
+infowindow.open(map, this);
+calculateDistance(placeLoc);
+calculateAndDisplayRoute(directionsService, directionsDisplay);
+}
+);}
+function calculateDistance(place)
+{
+var service = new google.maps.DistanceMatrixService();
+var source=CurrPosition;
+var destination={lat:place.lat,lng:place.lng};
+service.getDistanceMatrix({
+origins: [source],
+destinations: [destination],
+travelMode: google.maps.TravelMode.DRIVING,
+unitSystem: google.maps.UnitSystem.METRIC,
+avoidHighways: false,
+avoidTolls: false
+}, function (response, status) {
+if (status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS") {
+var distance = response.rows[0].elements[0].distance.text;
+var duration = response.rows[0].elements[0].duration.text;
+infobox.innerHTML="";
+infobox.innerHTML +="<b><font size=5 face=Open Sans>" + "Driving Distance from your current position: " + distance +"</font></b>"+ ". ";
+infobox.innerHTML +="<b><font size=5 face=Open Sans>" + "Driving time Duration from your current position :" + duration+"</font></b>";
+} else {
+alert("Unable to find the distance via road.");
+}
+});
+}
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+directionsService.route({
+origin: CurrPosition,
+destination:dest,
+travelMode: 'DRIVING'
+}, function(response, status) {
+if (status === 'OK') {
+directionsDisplay.setDirections(response);
+} else {
+window.alert('Directions request failed due to ' + status);
+}
+});
+}
+google.maps.event.addDomListener(window, 'load', initialize)
+</script>
+</head>
+<body>
+<script>
+window.fbAsyncInit = function() {
+FB.init({
+appId : '2010263732543671',
+xfbml : true,
+version : 'v2.8'
+});
+FB.AppEvents.logPageView();
+};
+
+(function(d, s, id){
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) {return;}
+js = d.createElement(s); js.id = id;
+js.src = "//connect.facebook.net/en_US/sdk.js";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+<div
+class="fb-like"
+data-share="true"
+data-width="450"
+data-show-faces="true">
+</div>
+
+<div id="map"></div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7k0C7MqFGnrzC-lC8UvlijGXd2UqePoE&libraries=places&callback=initMap" async defer></script>
+
+</body>
+</html>

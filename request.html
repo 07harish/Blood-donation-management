@@ -1,0 +1,117 @@
+<html>
+	<head>
+		<title> Request Blood</title>
+	</head>
+	<h3 align="center">Request Blood</h1>
+	<script type="text/javascript">
+		function validate()
+		{
+			var city=document.myform.city.value;
+			if(city==null||city=="")
+			{
+				alert("select city name to search");
+				document.myform.city.focus();
+				return false;
+			}
+
+			var Bloodgroup=document.myform.Bloodgroup.value;
+			if(Bloodgroup==null||Bloodgroup=="")
+			{
+				alert("select Bloodgroup to search");
+				document.myform.city.focus();
+				return false;
+			}
+		}
+	</script>
+     <style>
+        body {-webkit-animation: pulse 10s infinite;animation: pulse 10s infinite;}
+
+@-webkit-keyframes pulse {
+    0% {background:#f44336}
+    25% {background:#e91e63}
+    50% {background:#9c2780}
+    75% {background:#673ab7}
+    100% {background:#f44336}
+}
+
+@keyframes pulse {
+    0% {background:#f44336}
+    25% {background:#e91e63}
+    50% {background:#9c2780}
+    75% {background:#673ab7}
+    100% {background:#f44336}
+}
+
+        
+        table{
+            
+             font-family: monospace;
+    font-size: 18px;
+            color: #000000;
+            letter-spacing: 1px;
+        }
+        input[type=text],select,input[type=submit]
+        {
+            border: 2px solid #000000;
+    border-radius: 4px;
+            -webkit-animation: pulse 10s infinite;animation: pulse 10s infinite;
+            
+            @-webkit-keyframes pulse {
+    0% {background:#f44336}
+    25% {background:#e91e63}
+    50% {background:#9c2780}
+    75% {background:#673ab7}
+    100% {background:#f44336}
+                
+}
+       
+
+@keyframes pulse {
+    0% {background:#f44336}
+    25% {background:#e91e63}
+    50% {background:#9c2780}
+    75% {background:#673ab7}
+    100% {background:#f44336}
+}
+        }
+        input[type=submit]:hover{
+             border: 1px solid #b5b5b5;
+    border-width: thick;
+    color: #ffffff;
+    opacity: .9;
+        }
+    </style>
+	<body>
+		<form method="get" action="request.php" name="myform" onsubmit="return validate()">
+			<table align="center" cellpadding="4" cellspacing="4">
+				
+				
+					
+				<tr>
+					<td> city</td>
+					<td><input type="text" name="city" /></td>
+				<tr>
+					<td>Blood Group</td>
+					<td>    <select style="width:170px"  name="bloodgroup">  
+<option value="aplus">A-positive</option>  
+<option value="aminus">A-negative</option>  
+<option value="bplus">B-positive</option>  
+<option value="bminus">B-negative</option>  
+<option value="oplus">O-positive</option>  
+<option value="ominus">O-negative</option>  
+<option value="abplus">AB-positive</option> 
+<option value="abminus">AB-negative</option>  
+
+</select></td>
+				</tr>
+				
+
+				<tr>
+					<td>
+						<input type="submit" name="btnregister" value="Search" /></td>
+					</tr>
+				</table>
+
+		</form>
+	</body>
+</html> 
