@@ -1,5 +1,5 @@
 # Blood-donation-management
-### [Aug 2017]
+### [Aug 2017] Basic website
 Encouraging Blood donation. Search for blood, Request, API integration for blood locator, Real-time Project using php,mysqli,html,css.
 ##### for Blood banks or Hospitals:
    - Bloodbanks will be provided simple interface to manage their blood Type, Quantity and  their Expiry.
